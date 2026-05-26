@@ -1,4 +1,4 @@
-#include"semanticParser.h"
+#include "semanticParser.h"
 
 void executeCommand();
 
@@ -16,6 +16,10 @@ void executeRENAME();
 void executeSELECTION();
 void executeSORT();
 void executeSOURCE();
-
+void executeLOAD_GRAPH();
+void executeEXPORT_GRAPH();
+void executePATH();
+void executeDEGREE();
+void executePRINT_GRAPH();
 bool evaluateBinOp(int value1, int value2, BinaryOperator binaryOperator);
 void printRowCount(int rowCount);

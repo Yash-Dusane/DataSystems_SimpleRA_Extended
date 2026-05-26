@@ -4,7 +4,9 @@ bool syntacticParse()
 {
     logger.log("syntacticParse");
     string possibleQueryType = tokenizedQuery[0];
-
+    // cout<<"HERE"<<endl;
+    // cout<<"PRINTING TOK"<<endl;
+    // for(auto g: tokenizedQuery )cout<<g<<' ';cout<<endl;
     if (tokenizedQuery.size() < 2)
     {
         cout << "SYNTAX ERROR" << endl;
@@ -18,15 +20,37 @@ bool syntacticParse()
     else if (possibleQueryType == "LIST")
         return syntacticParseLIST();
     else if (possibleQueryType == "LOAD")
-        return syntacticParseLOAD();
-    else if (possibleQueryType == "PRINT")
+    {
+        // cout<<"IN LOAD!!!"<<endl;
+        // for(auto g: tokenizedQuery)cout<<g<<' ';cout<<endl;
+        if( tokenizedQuery.size() > 1 and tokenizedQuery[1] == "GRAPH" ){
+            return syntacticParseLOAD_GRAPH();
+        }
+        else{
+            return syntacticParseLOAD();
+        }
+    }
+    else if (possibleQueryType == "PRINT"){
+        if(tokenizedQuery.size()>1 and tokenizedQuery[1]=="GRAPH"){
+            return syntacticParsePRINT_GRAPH();
+        }
         return syntacticParsePRINT();
+    }
     else if (possibleQueryType == "RENAME")
         return syntacticParseRENAME();
-    else if(possibleQueryType == "EXPORT")
-        return syntacticParseEXPORT();
+    else if(possibleQueryType == "EXPORT"){
+        if( tokenizedQuery.size() > 1 and tokenizedQuery[1] == "GRAPH" ){
+            return syntacticParseEXPORT_GRAPH();
+        }
+        else{
+            return syntacticParseEXPORT();
+        }
+    }
     else if(possibleQueryType == "SOURCE")
         return syntacticParseSOURCE();
+    else if(possibleQueryType=="DEGREE"){
+        return syntacticParseDEGREE();
+    }
     else
     {
         string resultantRelationName = possibleQueryType;
@@ -48,6 +72,10 @@ bool syntacticParse()
             return syntacticParseDISTINCT();
         else if (possibleQueryType == "SORT")
             return syntacticParseSORT();
+        else if (possibleQueryType =="PATH"){
+            // cout<<"HI"<<endl;
+            return syntacticParsePATH();
+        }
         else
         {
             cout << "SYNTAX ERROR" << endl;
@@ -114,6 +142,18 @@ void ParsedQuery::clear()
     this->sortRelationName = "";
 
     this->sourceFileName = "";
+
+    // graph
+    this->isDirected = false;
+    this->graphName = "";
+
+    // path
+    this->pathConditions.clear();
+    this->pathDest = "";
+    this->pathSrc = "";
+    this->pathResultName = "";
+    this-> degreeNodeID = -1;
+    this->degreeGraphName="";
 }
 
 /**

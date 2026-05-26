@@ -19,7 +19,7 @@ Table::Table()
 Table::Table(string tableName)
 {
     logger.log("Table::Table");
-    this->sourceFileName = "../data/" + tableName + ".csv";
+    this->sourceFileName = "../data/" + tableName + ".csv"; // <<<<< 
     this->tableName = tableName;
 }
 
@@ -34,7 +34,7 @@ Table::Table(string tableName)
 Table::Table(string tableName, vector<string> columns)
 {
     logger.log("Table::Table");
-    this->sourceFileName = "../data/temp/" + tableName + ".csv";
+    this->sourceFileName = "../data/temp/" + tableName + ".csv"; // <<<<< 
     this->tableName = tableName;
     this->columns = columns;
     this->columnCount = columns.size();

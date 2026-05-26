@@ -1,7 +1,9 @@
 #include<iostream>
 #include<bits/stdc++.h>
-#include<sys/stat.h> 
+#include<sys/stat.h>
 #include<fstream>
+
+typedef unsigned int uint;
 
 using namespace std;
 

@@ -1,0 +1,587 @@
+=== SECTION 1: SYNTACTIC & SEMANTIC ERRORS ===
+--- Syntactic Error ---
+CMD: LOAD
+EXP: SYNTAX ERROR
+BLOCKS (Min): 0
+
+--- Syntactic Error ---
+CMD: LOAD GRAPH
+EXP: SYNTAX ERROR
+BLOCKS (Min): 0
+
+--- Syntactic Error ---
+CMD: LOAD GRAPH A
+EXP: SYNTAX ERROR
+BLOCKS (Min): 0
+
+--- Syntactic Error ---
+CMD: LOAD GRAPH A B C
+EXP: SYNTAX ERROR
+BLOCKS (Min): 0
+
+--- Syntactic Error ---
+CMD: EXPORT
+EXP: SYNTAX ERROR
+BLOCKS (Min): 0
+
+--- Syntactic Error ---
+CMD: EXPORT GRAPH
+EXP: SYNTAX ERROR
+BLOCKS (Min): 0
+
+--- Syntactic Error ---
+CMD: DEGREE
+EXP: SYNTAX ERROR
+BLOCKS (Min): 0
+
+--- Syntactic Error ---
+CMD: DEGREE A
+EXP: SYNTAX ERROR
+BLOCKS (Min): 0
+
+--- Syntactic Error ---
+CMD: PATH A B
+EXP: SYNTAX ERROR
+BLOCKS (Min): 0
+
+--- Syntactic Error ---
+CMD: RES <- PATH A
+EXP: SYNTAX ERROR
+BLOCKS (Min): 0
+
+--- Syntactic Error ---
+CMD: RES <- PATH A B
+EXP: SYNTAX ERROR
+BLOCKS (Min): 0
+
+--- Syntactic Error ---
+CMD: PRINT
+EXP: SYNTAX ERROR
+BLOCKS (Min): 0
+
+--- Syntactic Error ---
+CMD: PRINT GRAPH
+EXP: SYNTAX ERROR
+BLOCKS (Min): 0
+
+--- Semantic Error ---
+CMD: LOAD GRAPH TEST_D D
+EXP: SEMANTIC ERROR or Error
+BLOCKS (Min): 0
+
+--- Semantic Error ---
+CMD: LOAD GRAPH FAKE D
+EXP: SEMANTIC ERROR or Error
+BLOCKS (Min): 0
+
+--- Semantic Error ---
+CMD: EXPORT GRAPH FAKE
+EXP: SEMANTIC ERROR or Error
+BLOCKS (Min): 0
+
+--- Semantic Error ---
+CMD: DEGREE FAKE 0
+EXP: SEMANTIC ERROR or Error
+BLOCKS (Min): 0
+
+--- Semantic Error ---
+CMD: DEGREE BIG -1
+EXP: SEMANTIC ERROR or Error
+BLOCKS (Min): 0
+
+--- Semantic Error ---
+CMD: RES <- PATH FAKE 0 1
+EXP: SEMANTIC ERROR or Error
+BLOCKS (Min): 0
+
+--- Semantic Error ---
+CMD: PRINT GRAPH FAKE
+EXP: SEMANTIC ERROR or Error
+BLOCKS (Min): 0
+
+
+=== SECTION 2: FUNCTIONAL TESTS ===
+--- Degree Directed Node 230 ---
+CMD: DEGREE TEST_D 230
+EXP: 35
+BLOCKS (Min): 2 + 6250 (Index Read + Target Block + Full Scan for In-Degree)
+
+--- Degree Directed Node 364 ---
+CMD: DEGREE TEST_D 364
+EXP: 55
+BLOCKS (Min): 2 + 6250 (Index Read + Target Block + Full Scan for In-Degree)
+
+--- Degree Directed Node 7784 ---
+CMD: DEGREE TEST_D 7784
+EXP: 55
+BLOCKS (Min): 2 + 6250 (Index Read + Target Block + Full Scan for In-Degree)
+
+--- Degree Directed Node 9662 ---
+CMD: DEGREE TEST_D 9662
+EXP: 63
+BLOCKS (Min): 2 + 6250 (Index Read + Target Block + Full Scan for In-Degree)
+
+--- Degree Directed Node 8383 ---
+CMD: DEGREE TEST_D 8383
+EXP: 40
+BLOCKS (Min): 2 + 6250 (Index Read + Target Block + Full Scan for In-Degree)
+
+--- Degree Directed Node 5378 ---
+CMD: DEGREE TEST_D 5378
+EXP: 54
+BLOCKS (Min): 2 + 6250 (Index Read + Target Block + Full Scan for In-Degree)
+
+--- Degree Directed Node 9489 ---
+CMD: DEGREE TEST_D 9489
+EXP: 50
+BLOCKS (Min): 2 + 6250 (Index Read + Target Block + Full Scan for In-Degree)
+
+--- Degree Directed Node 2137 ---
+CMD: DEGREE TEST_D 2137
+EXP: 45
+BLOCKS (Min): 2 + 6250 (Index Read + Target Block + Full Scan for In-Degree)
+
+--- Degree Directed Node 8311 ---
+CMD: DEGREE TEST_D 8311
+EXP: 45
+BLOCKS (Min): 2 + 6250 (Index Read + Target Block + Full Scan for In-Degree)
+
+--- Degree Directed Node 975 ---
+CMD: DEGREE TEST_D 975
+EXP: 50
+BLOCKS (Min): 2 + 6250 (Index Read + Target Block + Full Scan for In-Degree)
+
+--- Degree Directed Node 2590 ---
+CMD: DEGREE TEST_D 2590
+EXP: 48
+BLOCKS (Min): 2 + 6250 (Index Read + Target Block + Full Scan for In-Degree)
+
+--- Degree Directed Node 7015 ---
+CMD: DEGREE TEST_D 7015
+EXP: 56
+BLOCKS (Min): 2 + 6250 (Index Read + Target Block + Full Scan for In-Degree)
+
+--- Degree Directed Node 3566 ---
+CMD: DEGREE TEST_D 3566
+EXP: 53
+BLOCKS (Min): 2 + 6250 (Index Read + Target Block + Full Scan for In-Degree)
+
+--- Degree Directed Node 487 ---
+CMD: DEGREE TEST_D 487
+EXP: 57
+BLOCKS (Min): 2 + 6250 (Index Read + Target Block + Full Scan for In-Degree)
+
+--- Degree Directed Node 3544 ---
+CMD: DEGREE TEST_D 3544
+EXP: 46
+BLOCKS (Min): 2 + 6250 (Index Read + Target Block + Full Scan for In-Degree)
+
+--- Degree Undirected Node 3902 ---
+CMD: DEGREE TEST_U 3902
+EXP: 48
+BLOCKS (Min): 2 (Index + Data Block jump)
+
+--- Degree Undirected Node 5827 ---
+CMD: DEGREE TEST_U 5827
+EXP: 63
+BLOCKS (Min): 2 (Index + Data Block jump)
+
+--- Degree Undirected Node 589 ---
+CMD: DEGREE TEST_U 589
+EXP: 52
+BLOCKS (Min): 2 (Index + Data Block jump)
+
+--- Degree Undirected Node 2739 ---
+CMD: DEGREE TEST_U 2739
+EXP: 52
+BLOCKS (Min): 2 (Index + Data Block jump)
+
+--- Degree Undirected Node 1192 ---
+CMD: DEGREE TEST_U 1192
+EXP: 50
+BLOCKS (Min): 2 (Index + Data Block jump)
+
+--- Degree Undirected Node 9744 ---
+CMD: DEGREE TEST_U 9744
+EXP: 44
+BLOCKS (Min): 2 (Index + Data Block jump)
+
+--- Degree Undirected Node 7432 ---
+CMD: DEGREE TEST_U 7432
+EXP: 48
+BLOCKS (Min): 2 (Index + Data Block jump)
+
+--- Degree Undirected Node 8650 ---
+CMD: DEGREE TEST_U 8650
+EXP: 42
+BLOCKS (Min): 2 (Index + Data Block jump)
+
+--- Degree Undirected Node 9592 ---
+CMD: DEGREE TEST_U 9592
+EXP: 39
+BLOCKS (Min): 2 (Index + Data Block jump)
+
+--- Degree Undirected Node 6382 ---
+CMD: DEGREE TEST_U 6382
+EXP: 51
+BLOCKS (Min): 2 (Index + Data Block jump)
+
+--- Degree Undirected Node 4037 ---
+CMD: DEGREE TEST_U 4037
+EXP: 46
+BLOCKS (Min): 2 (Index + Data Block jump)
+
+--- Degree Undirected Node 7742 ---
+CMD: DEGREE TEST_U 7742
+EXP: 49
+BLOCKS (Min): 2 (Index + Data Block jump)
+
+--- Degree Undirected Node 5762 ---
+CMD: DEGREE TEST_U 5762
+EXP: 46
+BLOCKS (Min): 2 (Index + Data Block jump)
+
+--- Degree Undirected Node 4764 ---
+CMD: DEGREE TEST_U 4764
+EXP: 52
+BLOCKS (Min): 2 (Index + Data Block jump)
+
+--- Degree Undirected Node 7782 ---
+CMD: DEGREE TEST_U 7782
+EXP: 51
+BLOCKS (Min): 2 (Index + Data Block jump)
+
+
+=== SECTION 3: PATH TESTS (Varied WHERE clauses) ===
+--- Path 7476->5284 with conditions ['A1(N)', 'A2(N)'] ---
+CMD: RES <- PATH TEST_D 7476 5284 WHERE A1(N) AND A2(N)
+EXP: FALSE
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 7792->1008 with conditions ['A2(N) == 1'] ---
+CMD: RES <- PATH TEST_D 7792 1008 WHERE A2(N) == 1
+EXP: FALSE
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 6313->388 with conditions ['A2(N) == 1'] ---
+CMD: RES <- PATH TEST_D 6313 388 WHERE A2(N) == 1
+EXP: FALSE
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 6040->7252 with conditions ['A2(N)', 'ANY(E) == 1'] ---
+CMD: RES <- PATH TEST_D 6040 7252 WHERE A2(N) AND ANY(E) == 1
+EXP: FALSE
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 1902->6861 with conditions [] ---
+CMD: RES <- PATH TEST_D 1902 6861
+EXP: TRUE 49
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 4701->2538 with conditions ['B1(E) == 1'] ---
+CMD: RES <- PATH TEST_D 4701 2538 WHERE B1(E) == 1
+EXP: TRUE 104
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 8220->383 with conditions [] ---
+CMD: RES <- PATH TEST_D 8220 383
+EXP: TRUE 34
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 8765->9783 with conditions ['A1(N)', 'A2(N)'] ---
+CMD: RES <- PATH TEST_D 8765 9783 WHERE A1(N) AND A2(N)
+EXP: FALSE
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 6034->4241 with conditions ['B2(E)'] ---
+CMD: RES <- PATH TEST_D 6034 4241 WHERE B2(E)
+EXP: TRUE 78
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 6528->7307 with conditions ['A1(N) == 1', 'B2(E)'] ---
+CMD: RES <- PATH TEST_D 6528 7307 WHERE A1(N) == 1 AND B2(E)
+EXP: FALSE
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 8896->2954 with conditions ['ANY(N) == 1'] ---
+CMD: RES <- PATH TEST_D 8896 2954 WHERE ANY(N) == 1
+EXP: FALSE
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 7723->3980 with conditions ['A2(N) == 1'] ---
+CMD: RES <- PATH TEST_D 7723 3980 WHERE A2(N) == 1
+EXP: FALSE
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 1279->748 with conditions ['ANY(N) == 1'] ---
+CMD: RES <- PATH TEST_D 1279 748 WHERE ANY(N) == 1
+EXP: TRUE 60
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 6633->4241 with conditions ['ANY(E)'] ---
+CMD: RES <- PATH TEST_D 6633 4241 WHERE ANY(E)
+EXP: TRUE 62
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 5863->3640 with conditions ['ANY(N) == 1'] ---
+CMD: RES <- PATH TEST_D 5863 3640 WHERE ANY(N) == 1
+EXP: TRUE 78
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 356->873 with conditions ['ANY(E)'] ---
+CMD: RES <- PATH TEST_D 356 873 WHERE ANY(E)
+EXP: TRUE 57
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 379->3537 with conditions ['A1(N) == 1', 'B2(E)'] ---
+CMD: RES <- PATH TEST_D 379 3537 WHERE A1(N) == 1 AND B2(E)
+EXP: FALSE
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 4569->4243 with conditions ['ANY(E)'] ---
+CMD: RES <- PATH TEST_D 4569 4243 WHERE ANY(E)
+EXP: TRUE 69
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 3930->9887 with conditions ['A1(N)', 'A2(N)'] ---
+CMD: RES <- PATH TEST_D 3930 9887 WHERE A1(N) AND A2(N)
+EXP: TRUE 255
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 5165->4461 with conditions ['A1(N) == 1'] ---
+CMD: RES <- PATH TEST_D 5165 4461 WHERE A1(N) == 1
+EXP: FALSE
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 7171->8692 with conditions ['ANY(N) == 1'] ---
+CMD: RES <- PATH TEST_D 7171 8692 WHERE ANY(N) == 1
+EXP: TRUE 74
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 2984->2661 with conditions ['ANY(N) == 1'] ---
+CMD: RES <- PATH TEST_D 2984 2661 WHERE ANY(N) == 1
+EXP: TRUE 49
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 3513->3567 with conditions ['A1(N) == 1'] ---
+CMD: RES <- PATH TEST_D 3513 3567 WHERE A1(N) == 1
+EXP: FALSE
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 3860->8078 with conditions ['ANY(N) == 1'] ---
+CMD: RES <- PATH TEST_D 3860 8078 WHERE ANY(N) == 1
+EXP: FALSE
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 8013->540 with conditions ['A2(N) == 1'] ---
+CMD: RES <- PATH TEST_D 8013 540 WHERE A2(N) == 1
+EXP: FALSE
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 1669->5109 with conditions [] ---
+CMD: RES <- PATH TEST_D 1669 5109
+EXP: TRUE 39
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 6563->1684 with conditions ['A1(N) == 1', 'B2(E)'] ---
+CMD: RES <- PATH TEST_D 6563 1684 WHERE A1(N) == 1 AND B2(E)
+EXP: FALSE
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 1411->1021 with conditions ['A1(N) == 1'] ---
+CMD: RES <- PATH TEST_D 1411 1021 WHERE A1(N) == 1
+EXP: TRUE 66
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 7693->6200 with conditions ['A1(N) == 1'] ---
+CMD: RES <- PATH TEST_D 7693 6200 WHERE A1(N) == 1
+EXP: FALSE
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 2444->8951 with conditions ['ANY(N) == 1'] ---
+CMD: RES <- PATH TEST_D 2444 8951 WHERE ANY(N) == 1
+EXP: TRUE 120
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 4846->9213 (undirected) with conditions ['B1(E) == 1'] ---
+CMD: RES <- PATH TEST_U 4846 9213 WHERE B1(E) == 1
+EXP: TRUE 62
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 2310->82 (undirected) with conditions ['ANY(E)'] ---
+CMD: RES <- PATH TEST_U 2310 82 WHERE ANY(E)
+EXP: TRUE 34
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 4404->3837 (undirected) with conditions ['A2(N) == 1'] ---
+CMD: RES <- PATH TEST_U 4404 3837 WHERE A2(N) == 1
+EXP: FALSE
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 9041->1116 (undirected) with conditions ['B2(E)'] ---
+CMD: RES <- PATH TEST_U 9041 1116 WHERE B2(E)
+EXP: TRUE 31
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 7064->7 (undirected) with conditions ['A2(N)', 'ANY(E) == 1'] ---
+CMD: RES <- PATH TEST_U 7064 7 WHERE A2(N) AND ANY(E) == 1
+EXP: FALSE
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 591->8549 (undirected) with conditions ['A1(N) == 1', 'B2(E)'] ---
+CMD: RES <- PATH TEST_U 591 8549 WHERE A1(N) == 1 AND B2(E)
+EXP: FALSE
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 8300->9960 (undirected) with conditions ['A1(N)', 'A2(N)'] ---
+CMD: RES <- PATH TEST_U 8300 9960 WHERE A1(N) AND A2(N)
+EXP: TRUE 99
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 5867->7665 (undirected) with conditions ['ANY(E)'] ---
+CMD: RES <- PATH TEST_U 5867 7665 WHERE ANY(E)
+EXP: TRUE 20
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 5481->9721 (undirected) with conditions ['B2(E)'] ---
+CMD: RES <- PATH TEST_U 5481 9721 WHERE B2(E)
+EXP: TRUE 34
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 1077->1904 (undirected) with conditions ['ANY(E)'] ---
+CMD: RES <- PATH TEST_U 1077 1904 WHERE ANY(E)
+EXP: TRUE 31
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 3728->350 (undirected) with conditions ['A1(N) == 1'] ---
+CMD: RES <- PATH TEST_U 3728 350 WHERE A1(N) == 1
+EXP: FALSE
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 5054->7618 (undirected) with conditions ['A2(N)', 'ANY(E) == 1'] ---
+CMD: RES <- PATH TEST_U 5054 7618 WHERE A2(N) AND ANY(E) == 1
+EXP: FALSE
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 6250->8750 (undirected) with conditions ['B2(E)'] ---
+CMD: RES <- PATH TEST_U 6250 8750 WHERE B2(E)
+EXP: TRUE 61
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 6003->245 (undirected) with conditions ['A2(N)', 'ANY(E) == 1'] ---
+CMD: RES <- PATH TEST_U 6003 245 WHERE A2(N) AND ANY(E) == 1
+EXP: FALSE
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 1521->8293 (undirected) with conditions ['B1(E) == 1'] ---
+CMD: RES <- PATH TEST_U 1521 8293 WHERE B1(E) == 1
+EXP: TRUE 43
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 496->5004 (undirected) with conditions ['A1(N) == 1', 'B2(E)'] ---
+CMD: RES <- PATH TEST_U 496 5004 WHERE A1(N) == 1 AND B2(E)
+EXP: TRUE 60
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 2414->4732 (undirected) with conditions ['A2(N)', 'ANY(E) == 1'] ---
+CMD: RES <- PATH TEST_U 2414 4732 WHERE A2(N) AND ANY(E) == 1
+EXP: TRUE 55
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 9321->5747 (undirected) with conditions ['ANY(E)'] ---
+CMD: RES <- PATH TEST_U 9321 5747 WHERE ANY(E)
+EXP: TRUE 9
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 3732->1904 (undirected) with conditions [] ---
+CMD: RES <- PATH TEST_U 3732 1904
+EXP: TRUE 33
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 7478->328 (undirected) with conditions ['B2(E)'] ---
+CMD: RES <- PATH TEST_U 7478 328 WHERE B2(E)
+EXP: TRUE 37
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 7724->5782 (undirected) with conditions ['ANY(N) == 1'] ---
+CMD: RES <- PATH TEST_U 7724 5782 WHERE ANY(N) == 1
+EXP: TRUE 18
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 1717->3608 (undirected) with conditions ['ANY(E)'] ---
+CMD: RES <- PATH TEST_U 1717 3608 WHERE ANY(E)
+EXP: TRUE 37
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 1005->9436 (undirected) with conditions ['ANY(E)'] ---
+CMD: RES <- PATH TEST_U 1005 9436 WHERE ANY(E)
+EXP: TRUE 30
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 579->8627 (undirected) with conditions ['A1(N) == 1', 'B2(E)'] ---
+CMD: RES <- PATH TEST_U 579 8627 WHERE A1(N) == 1 AND B2(E)
+EXP: TRUE 83
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 4439->8718 (undirected) with conditions ['A1(N) == 1', 'B2(E)'] ---
+CMD: RES <- PATH TEST_U 4439 8718 WHERE A1(N) == 1 AND B2(E)
+EXP: FALSE
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 9756->7324 (undirected) with conditions ['B1(E) == 1'] ---
+CMD: RES <- PATH TEST_U 9756 7324 WHERE B1(E) == 1
+EXP: TRUE 36
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 7724->4037 (undirected) with conditions ['A2(N) == 1'] ---
+CMD: RES <- PATH TEST_U 7724 4037 WHERE A2(N) == 1
+EXP: FALSE
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 145->2136 (undirected) with conditions ['B1(E) == 1'] ---
+CMD: RES <- PATH TEST_U 145 2136 WHERE B1(E) == 1
+EXP: TRUE 39
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 8445->6322 (undirected) with conditions ['A1(N)', 'A2(N)'] ---
+CMD: RES <- PATH TEST_U 8445 6322 WHERE A1(N) AND A2(N)
+EXP: FALSE
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path 6076->5227 (undirected) with conditions ['A1(N) == 1'] ---
+CMD: RES <- PATH TEST_U 6076 5227 WHERE A1(N) == 1
+EXP: FALSE
+BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
+
+--- Path Nonexistent Graph ---
+CMD: RES <- PATH NO_GRAPH 0 1
+EXP: SEMANTIC ERROR: Graph doesn’t exist
+BLOCKS (Min): 0
+
+--- Path Node Does Not Exist ---
+CMD: RES <- PATH TEST_D 10100 1
+EXP: Node does not exist
+BLOCKS (Min): 0
+
+--- Export Directed ---
+CMD: EXPORT GRAPH TEST_D
+EXP: Success
+BLOCKS (Min): 6250 (Sequential Scan)
+
+--- Print Graph ---
+CMD: PRINT GRAPH TEST_D
+EXP: Dump of Nodes & Edges
+BLOCKS (Min): 6250 (Seq Scan)
+
+
+=== SECTION 4: STRESS TESTS (High Volume) ===
+--- Stress Degree Directed ---
+CMD: DEGREE TEST_D 9995
+EXP: 55
+BLOCKS (Min): 2 + 6250
+
+--- Stress Degree Undirected ---
+CMD: DEGREE TEST_U 9995
+EXP: 55
+BLOCKS (Min): 2 (Index + Data Block jump)
+

@@ -15,6 +15,7 @@ BufferManager::BufferManager()
  */
 Page BufferManager::getPage(string tableName, int pageIndex)
 {
+    GLOBAL_BLOCK_ACCESS_COUNT+=1;
     logger.log("BufferManager::getPage");
     string pageName = "../data/temp/"+tableName + "_Page" + to_string(pageIndex);
     if (this->inPool(pageName))

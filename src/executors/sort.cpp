@@ -28,7 +28,10 @@ bool syntacticParseSORT(){
     }
     return true;
 }
-
+// void executeSORT(){
+//     logger.log("executeSORT");
+//     return;
+// }
 bool semanticParseSORT(){
     logger.log("semanticParseSORT");
 
@@ -52,5 +55,36 @@ bool semanticParseSORT(){
 
 void executeSORT(){
     logger.log("executeSORT");
-    return;
+
+    Table* table = tableCatalogue.getTable(parsedQuery.sortRelationName);
+    string resultTableName = parsedQuery.sortResultRelationName;
+    string columnName = parsedQuery.sortColumnName;
+    
+    int colIndex = table->getColumnIndex(columnName);
+    if(colIndex == -1) return;
+    string inputFile = table->sourceFileName;
+    string outputFile = "../data/temp/" + resultTableName + ".csv";
+    string sortOpts = "-t, -k" + to_string(colIndex + 1) + "n";
+    if (parsedQuery.sortingStrategy == DESC) {
+        sortOpts += "r";
+    }
+    string command = "(head -n 1 " + inputFile + " && tail -n +2 " + inputFile + " | sort " + sortOpts + ") > " + outputFile;
+
+    int ret = system(command.c_str());
+    if (ret != 0) {
+        cout << "Error: System sort failed." << endl;
+        return;
+    }
+
+    Table* resultTable = new Table();
+    resultTable->tableName = resultTableName;
+    resultTable->sourceFileName = outputFile;
+    
+    if (resultTable->load()) {
+        tableCatalogue.insertTable(resultTable);
+        cout << "Number of rows in " << resultTableName << ": " << resultTable->rowCount << endl;
+    } else {
+        cout << "Error: Failed to load sorted table." << endl;
+        delete resultTable;
+    }
 }

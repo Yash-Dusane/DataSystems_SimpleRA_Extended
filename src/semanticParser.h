@@ -1,4 +1,4 @@
-#include"syntacticParser.h"
+#include "syntacticParser.h"
 
 bool semanticParse();
 
@@ -16,3 +16,8 @@ bool semanticParseRENAME();
 bool semanticParseSELECTION();
 bool semanticParseSORT();
 bool semanticParseSOURCE();
+bool semanticParseEXPORT_GRAPH();
+bool semanticParseLOAD_GRAPH();
+bool semanticParsePATH();
+bool semanticParseDEGREE();
+bool semanticParsePRINT_GRAPH();

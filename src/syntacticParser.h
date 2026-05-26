@@ -2,6 +2,14 @@
 
 using namespace std;
 
+struct PathCondition{
+    bool isNode;
+    bool isUniform;
+    int val;
+    string attribute;
+};
+
+
 enum QueryType
 {
     CLEAR,
@@ -18,6 +26,11 @@ enum QueryType
     SELECTION,
     SORT,
     SOURCE,
+    LOAD_GRAPH,
+    EXPORT_GRAPH,
+    PATH,
+    DEGREE,
+    PRINT_GRAPH,
     UNDETERMINED
 };
 
@@ -101,6 +114,20 @@ public:
 
     string sourceFileName = "";
 
+    // graph
+    string graphName = "";
+    bool isDirected = false;
+
+    // path
+    string pathSrc="";
+    string pathDest= "";
+    string pathResultName = "";
+
+    vector<PathCondition> pathConditions;
+
+    //degree
+    int degreeNodeID = -1;
+    string degreeGraphName = "";
     ParsedQuery();
     void clear();
 };
@@ -121,5 +148,10 @@ bool syntacticParseSELECTION();
 bool syntacticParseSORT();
 bool syntacticParseSOURCE();
 
+bool syntacticParseLOAD_GRAPH();
+bool syntacticParseEXPORT_GRAPH();
+bool syntacticParsePATH();
+bool syntacticParseDEGREE();
+bool syntacticParsePRINT_GRAPH();
 bool isFileExists(string tableName);
 bool isQueryFile(string fileName);

@@ -1,5 +1,5 @@
 #include "cursor.h"
-
+#pragma once
 enum IndexingStrategy
 {
     BTREE,

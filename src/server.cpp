@@ -3,13 +3,15 @@
 
 using namespace std;
 
+int GLOBAL_BLOCK_ACCESS_COUNT=0;
 float BLOCK_SIZE = 1;
 uint BLOCK_COUNT = 2;
-uint PRINT_COUNT = 20;
+uint PRINT_COUNT = 1e9+7;
 Logger logger;
 vector<string> tokenizedQuery;
 ParsedQuery parsedQuery;
 TableCatalogue tableCatalogue;
+GraphCatalogue graphCatalogue;
 BufferManager bufferManager;
 
 void doCommand()
