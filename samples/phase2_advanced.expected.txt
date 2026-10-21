@@ -1,0 +1,30 @@
+Loaded Table. Column Count: 5 Row Count: 10
+Loaded Table. Column Count: 2 Row Count: 4
+a, b
+2, 4
+3, 3
+4, 2
+5, 1
+Row Count: 4
+a, b, c, d, e
+1, 11, 21, 31, 41
+2, 12, 22, 32, 42
+3, 13, 23, 33, 43
+4, 14, 24, 34, 44
+5, 15, 25, 35, 45
+6, 16, 26, 36, 46
+10, 20, 30, 40, 50
+9, 19, 29, 39, 49
+8, 18, 28, 38, 48
+7, 17, 27, 37, 47
+Row Count: 10
+Loaded Table. Column Count: 6 Row Count: 8
+Dno, COUNT
+1, 1
+4, 3
+5, 4
+Row Count: 3
+Sex, MAXSalary
+0, 55000
+1, 43000
+Row Count: 2

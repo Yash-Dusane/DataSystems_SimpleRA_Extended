@@ -479,7 +479,7 @@ def write_test_suite(oracle_d, oracle_u):
   # - Graph that doesn't exist
   cmd = f"RES <- PATH NO_GRAPH 0 1"
   log(cmd)
-  expect("Path Nonexistent Graph", cmd, "SEMANTIC ERROR: Graph doesn’t exist", "0")
+  expect("Path Nonexistent Graph", cmd, "SEMANTIC ERROR: Graph doesn't exist", "0")
 
   # - Node out of range
   bad_node = len(oracle_d.nodes) + 100

@@ -1,0 +1,3 @@
+Loaded Graph. Node Count: 15, Edge Count: 20
+3
+TRUE 4

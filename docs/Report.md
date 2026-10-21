@@ -5,7 +5,7 @@
 
 - <span style="color:#f5f5f5">Harpreet Singh - 2022101048</span>
 - <span style="color:white">Kunal Angadi - 2022111005</span>
-- <span style="color:white">Yash Nitin Dusane - 2022102078</span>
+- <span style="color:black">Yash Nitin Dusane - 2022102078</span>
 
 ------------
 

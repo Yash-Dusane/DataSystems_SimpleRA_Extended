@@ -555,7 +555,7 @@ BLOCKS (Min): Depends on Path Length (Approx: Visited_Nodes * 2)
 
 --- Path Nonexistent Graph ---
 CMD: RES <- PATH NO_GRAPH 0 1
-EXP: SEMANTIC ERROR: Graph doesn’t exist
+EXP: SEMANTIC ERROR: Graph doesn't exist
 BLOCKS (Min): 0
 
 --- Path Node Does Not Exist ---
