@@ -1,0 +1,6 @@
+SEMANTIC ERROR: Relation doesn't exist
+Loaded Table. Column Count: 2 Row Count: 5
+SEMANTIC ERROR: Column doesn't exist in relation
+SEMANTIC ERROR
+SYNTAX ERROR
+SYNTAX ERROR

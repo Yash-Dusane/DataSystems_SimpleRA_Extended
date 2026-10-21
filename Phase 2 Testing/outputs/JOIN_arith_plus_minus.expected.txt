@@ -1,0 +1,16 @@
+Loaded Table. Column Count: 4 Row Count: 6
+Loaded Table. Column Count: 3 Row Count: 6
+Aid, Aval, Bid, Bval
+5, 9, 104, 1
+1, 5, 103, 5
+3, 5, 103, 5
+2, 7, 101, 3
+6, 7, 101, 3
+Row Count: 5
+Aid, Aval, Bid, Bval
+5, 9, 106, 7
+1, 5, 101, 3
+3, 5, 101, 3
+2, 7, 103, 5
+6, 7, 103, 5
+Row Count: 5

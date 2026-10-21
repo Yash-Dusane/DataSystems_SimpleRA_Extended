@@ -1,0 +1,5 @@
+Loaded Table. Column Count: 2 Row Count: 7
+G, AVGV
+1, 2
+2, 2
+Row Count: 2

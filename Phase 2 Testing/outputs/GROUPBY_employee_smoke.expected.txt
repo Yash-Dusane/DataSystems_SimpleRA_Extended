@@ -1,0 +1,10 @@
+Loaded Table. Column Count: 6 Row Count: 8
+Dno, COUNT
+1, 1
+4, 3
+5, 4
+Row Count: 3
+Sex, MAXSalary
+0, 55000
+1, 43000
+Row Count: 2

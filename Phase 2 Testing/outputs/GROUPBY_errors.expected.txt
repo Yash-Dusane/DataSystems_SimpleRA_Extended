@@ -1,0 +1,5 @@
+Loaded Table. Column Count: 6 Row Count: 8
+SEMANTIC ERROR: Group By column doesn't exist in relation
+SEMANTIC ERROR: Having column doesn't exist in relation
+SEMANTIC ERROR: Return column doesn't exist in relation
+SEMANTIC ERROR: Relation doesn't exist

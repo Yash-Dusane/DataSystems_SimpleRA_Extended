@@ -1,0 +1,3 @@
+Loaded Table. Column Count: 4 Row Count: 6
+Loaded Table. Column Count: 3 Row Count: 6
+SEMANTIC ERROR: Relation doesn't exist

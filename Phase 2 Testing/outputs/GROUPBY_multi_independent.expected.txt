@@ -1,0 +1,8 @@
+Loaded Table. Column Count: 4 Row Count: 8
+G, MAXX
+1, 6
+3, 7
+Row Count: 2
+H, SUMY
+20, 10
+Row Count: 1
