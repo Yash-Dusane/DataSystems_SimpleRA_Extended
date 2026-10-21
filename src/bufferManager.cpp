@@ -5,6 +5,18 @@ BufferManager::BufferManager()
     logger.log("BufferManager::BufferManager");
 }
 
+void BufferManager::evictFromPool(const string &pageName)
+{
+    for (auto it = this->pages.begin(); it != this->pages.end(); ++it)
+    {
+        if (it->pageName == pageName)
+        {
+            this->pages.erase(it);
+            return;
+        }
+    }
+}
+
 /**
  * @brief Function called to read a page from the buffer manager. If the page is
  * not present in the pool, the page is read and then inserted into the pool.
@@ -56,6 +68,7 @@ Page BufferManager::getFromPool(string pageName)
     for (auto page : this->pages)
         if (pageName == page.pageName)
             return page;
+    return Page();
 }
 
 /**
@@ -71,8 +84,8 @@ Page BufferManager::insertIntoPool(string tableName, int pageIndex)
 {
     logger.log("BufferManager::insertIntoPool");
     Page page(tableName, pageIndex);
-    if (this->pages.size() >= BLOCK_COUNT)
-        pages.pop_front();
+    while (this->pages.size() >= BLOCK_COUNT)
+        this->pages.pop_front();
     pages.push_back(page);
     return page;
 }
@@ -89,6 +102,8 @@ Page BufferManager::insertIntoPool(string tableName, int pageIndex)
 void BufferManager::writePage(string tableName, int pageIndex, vector<vector<int>> rows, int rowCount)
 {
     logger.log("BufferManager::writePage");
+    string pageName = "../data/temp/" + tableName + "_Page" + to_string(pageIndex);
+    this->evictFromPool(pageName);
     Page page(tableName, pageIndex, rows, rowCount);
     page.writePage();
 }
@@ -100,7 +115,7 @@ void BufferManager::writePage(string tableName, int pageIndex, vector<vector<int
  */
 void BufferManager::deleteFile(string fileName)
 {
-    
+    this->evictFromPool(fileName);
     if (remove(fileName.c_str()))
         logger.log("BufferManager::deleteFile: Err");
         else logger.log("BufferManager::deleteFile: Success");
@@ -118,4 +133,24 @@ void BufferManager::deleteFile(string tableName, int pageIndex)
     logger.log("BufferManager::deleteFile");
     string fileName = "../data/temp/"+tableName + "_Page" + to_string(pageIndex);
     this->deleteFile(fileName);
+}
+
+void BufferManager::setMaxPages(uint maxPages)
+{
+    // As per Phase 2 clarifications, changing the buffer size should not
+    // immediately affect pages already loaded in memory. Subsequent page loads
+    // will respect the new BLOCK_COUNT limit.
+    (void)maxPages;
+}
+
+void BufferManager::invalidateTable(const string &tableName)
+{
+    string prefix = "../data/temp/" + tableName + "_Page";
+    for (auto it = this->pages.begin(); it != this->pages.end();)
+    {
+        if (it->pageName.rfind(prefix, 0) == 0)
+            it = this->pages.erase(it);
+        else
+            ++it;
+    }
 }

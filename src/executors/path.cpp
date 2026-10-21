@@ -8,6 +8,7 @@
 #include <set>
 #include <algorithm>
 #include <climits>
+#include <unordered_map>
 #include <unordered_set>
 
 using namespace std;
@@ -274,39 +275,161 @@ void executePATH() {
     cout << "TRUE " << val << endl;
     
     string resName = parsedQuery.pathResultName;
-    Graph *resGraph = new Graph(resName, true);
-    string nFile = "../data/" + resGraph->nodeTable->tableName + ".csv";
-    string eFile = "../data/" + resGraph->edgeTable->tableName + ".csv";
-    
-    ofstream nOut(nFile); 
-    ofstream eOut(eFile);
-    
-    graph->nodeTable->writeRow(graph->nodeTable->columns, nOut);
-    graph->edgeTable->writeRow(graph->edgeTable->columns, eOut);
-    
-    unordered_set<int> pathSet(best_path.begin(), best_path.end());
-    Cursor nc = graph->nodeTable->getCursor();
-    vector<int> r;
-    while (!(r = nc.getNext()).empty()) { 
-        if (pathSet.count(r[0])) graph->nodeTable->writeRow(r, nOut); 
-    }
-    
-    set<pair<int, int>> pathEdges;
-    for (size_t i = 0; i < best_path.size() - 1; ++i) 
-        pathEdges.insert({best_path[i], best_path[i + 1]});
-    
-    Cursor ec = graph->edgeTable->getCursor();
-    while (!(r = ec.getNext()).empty()) {
-      if (pathEdges.count({r[0], r[1]})) { 
-          graph->edgeTable->writeRow(r, eOut); 
-          pathEdges.erase({r[0], r[1]}); 
+    Graph *resGraph = new Graph(resName, graph->isDirected);
+
+    string srcNodeFile = "../data/" + graph->nodeTable->tableName + ".csv";
+    string srcEdgeFile = "../data/" + graph->edgeTable->tableName + ".csv";
+
+    string outNodeFile = "../data/" + resGraph->nodeTable->tableName + ".csv";
+    string outEdgeFile = "../data/" + resGraph->edgeTable->tableName + ".csv";
+
+    unordered_set<int> neededNodes(best_path.begin(), best_path.end());
+    unordered_map<int, string> nodeLines;
+    nodeLines.reserve(neededNodes.size());
+
+    ifstream nIn(srcNodeFile);
+    string nodeHeader;
+    if (getline(nIn, nodeHeader))
+    {
+      string line;
+      while (getline(nIn, line))
+      {
+        if (line.empty())
+          continue;
+        size_t commaPos = line.find(',');
+        if (commaPos == string::npos)
+          continue;
+        int nid = stoi(line.substr(0, commaPos));
+        if (neededNodes.count(nid))
+          nodeLines[nid] = line;
       }
     }
-    nOut.close(); eOut.close();
-    
-    resGraph->nodeTable->load(); 
+
+    vector<pair<int, int>> pathPairs;
+    pathPairs.reserve(best_path.size() > 0 ? best_path.size() - 1 : 0);
+    for (size_t i = 0; i + 1 < best_path.size(); ++i)
+      pathPairs.push_back({best_path[i], best_path[i + 1]});
+
+    auto makeKey = [](int a, int b) -> long long {
+      return (static_cast<long long>(a) << 32) ^ static_cast<unsigned int>(b);
+    };
+
+    unordered_set<long long> neededEdges;
+    neededEdges.reserve(pathPairs.size() * 2);
+    for (const auto &p : pathPairs)
+    {
+      int a = p.first, b = p.second;
+      if (!graph->isDirected && a > b)
+        swap(a, b);
+      neededEdges.insert(makeKey(a, b));
+    }
+
+    unordered_map<long long, string> edgeLines;
+    edgeLines.reserve(neededEdges.size());
+
+    ifstream eIn(srcEdgeFile);
+    string edgeHeader;
+    if (getline(eIn, edgeHeader))
+    {
+      string line;
+      while (getline(eIn, line))
+      {
+        if (line.empty())
+          continue;
+        size_t c1 = line.find(',');
+        if (c1 == string::npos)
+          continue;
+        size_t c2 = line.find(',', c1 + 1);
+        if (c2 == string::npos)
+          continue;
+        int a = stoi(line.substr(0, c1));
+        int b = stoi(line.substr(c1 + 1, c2 - c1 - 1));
+        if (!graph->isDirected && a > b)
+          swap(a, b);
+        long long key = makeKey(a, b);
+        if (neededEdges.count(key))
+          edgeLines[key] = line;
+      }
+    }
+
+    {
+      ofstream nOut(outNodeFile, ios::trunc);
+      nOut << nodeHeader << endl;
+      for (int nid : best_path)
+      {
+        auto it = nodeLines.find(nid);
+        if (it != nodeLines.end())
+          nOut << it->second << endl;
+      }
+    }
+
+    {
+      ofstream eOut(outEdgeFile, ios::trunc);
+      eOut << edgeHeader << endl;
+      for (const auto &p : pathPairs)
+      {
+        int a = p.first, b = p.second;
+        if (!graph->isDirected && a > b)
+          swap(a, b);
+        long long key = makeKey(a, b);
+        auto it = edgeLines.find(key);
+        if (it != edgeLines.end())
+          eOut << it->second << endl;
+      }
+    }
+
+    string edgeTemp = "../data/temp/" + resGraph->edgeTable->tableName + ".csv";
+    if (resGraph->isDirected)
+    {
+      string cmd = "cp " + outEdgeFile + " " + edgeTemp;
+      system(cmd.c_str());
+    }
+    else
+    {
+      ifstream fin(outEdgeFile);
+      ofstream fout(edgeTemp);
+      if (fin.is_open() && fout.is_open())
+      {
+        string line;
+        if (getline(fin, line))
+          fout << line << endl;
+
+        while (getline(fin, line))
+        {
+          if (line.empty())
+            continue;
+          fout << line << endl;
+
+          stringstream ss(line);
+          string token;
+          vector<string> tokens;
+          while (getline(ss, token, ','))
+            tokens.push_back(token);
+
+          if (tokens.size() >= 3)
+          {
+            fout << tokens[1] << "," << tokens[0] << "," << tokens[2];
+            for (size_t i = 3; i < tokens.size(); i++)
+              fout << "," << tokens[i];
+            fout << endl;
+          }
+        }
+      }
+      fin.close();
+      fout.close();
+    }
+
+    string sortedFile = edgeTemp + ".sorted";
+    string sortCmd = "(head -n 1 " + edgeTemp + " && tail -n +2 " + edgeTemp + " | sort -t, -k1n) > " + sortedFile;
+    system(sortCmd.c_str());
+    string mvCmd = "mv " + sortedFile + " " + edgeTemp;
+    system(mvCmd.c_str());
+
+    resGraph->edgeTable->sourceFileName = edgeTemp;
+
+    resGraph->nodeTable->load();
     resGraph->edgeTable->load();
-    tableCatalogue.insertTable(resGraph->nodeTable); 
+    tableCatalogue.insertTable(resGraph->nodeTable);
     tableCatalogue.insertTable(resGraph->edgeTable);
     graphCatalogue.insertGraph(resGraph);
   }

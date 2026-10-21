@@ -15,7 +15,9 @@ void executeCommand(){
         case PROJECTION: executePROJECTION(); break;
         case RENAME: executeRENAME(); break;
         case SELECTION: executeSELECTION(); break;
+        case SETBUFFER: executeSETBUFFER(); break;
         case SORT: executeSORT(); break;
+        case GROUP_BY: executeGROUP_BY(); break;
         case SOURCE: executeSOURCE(); break;
         case LOAD_GRAPH: executeLOAD_GRAPH(); break;
         case EXPORT_GRAPH: executeEXPORT_GRAPH(); break;

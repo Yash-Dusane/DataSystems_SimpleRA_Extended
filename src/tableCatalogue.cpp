@@ -8,15 +8,20 @@ void TableCatalogue::insertTable(Table* table)
 void TableCatalogue::deleteTable(string tableName)
 {
     logger.log("TableCatalogue::deleteTable"); 
-    this->tables[tableName]->unload();
-    delete this->tables[tableName];
-    this->tables.erase(tableName);
+    auto it = this->tables.find(tableName);
+    if (it == this->tables.end() || it->second == nullptr)
+        return;
+    it->second->unload();
+    delete it->second;
+    this->tables.erase(it);
 }
 Table* TableCatalogue::getTable(string tableName)
 {
     logger.log("TableCatalogue::getTable"); 
-    Table *table = this->tables[tableName];
-    return table;
+    auto it = this->tables.find(tableName);
+    if (it == this->tables.end())
+        return nullptr;
+    return it->second;
 }
 bool TableCatalogue::isTable(string tableName)
 {

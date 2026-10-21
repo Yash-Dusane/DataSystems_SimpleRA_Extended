@@ -13,6 +13,9 @@ bool syntacticParse()
         return false;
     }
 
+    auto arrowIt = find(tokenizedQuery.begin(), tokenizedQuery.end(), "<-");
+    int arrowPos = (arrowIt == tokenizedQuery.end()) ? -1 : (int)distance(tokenizedQuery.begin(), arrowIt);
+
     if (possibleQueryType == "CLEAR")
         return syntacticParseCLEAR();
     else if (possibleQueryType == "INDEX")
@@ -48,17 +51,37 @@ bool syntacticParse()
     }
     else if(possibleQueryType == "SOURCE")
         return syntacticParseSOURCE();
+    else if(possibleQueryType == "SETBUFFER")
+        return syntacticParseSETBUFFER();
+    else if(possibleQueryType == "SORT")
+        return syntacticParseSORT();
     else if(possibleQueryType=="DEGREE"){
         return syntacticParseDEGREE();
     }
     else
     {
-        string resultantRelationName = possibleQueryType;
-        if (tokenizedQuery[1] != "<-" || tokenizedQuery.size() < 3)
+        if (arrowPos == -1 || tokenizedQuery.size() < (size_t)(arrowPos + 2))
         {
             cout << "SYNTAX ERROR" << endl;
             return false;
         }
+
+        // Multi-assignment is supported only for GROUP BY in Phase 2.
+        if (arrowPos > 1)
+        {
+            if (tokenizedQuery[arrowPos + 1] == "GROUP")
+                return syntacticParseGROUP_BY(arrowPos);
+            cout << "SYNTAX ERROR" << endl;
+            return false;
+        }
+
+        // Single-result assignment statements follow the original flow.
+        if (arrowPos != 1)
+        {
+            cout << "SYNTAX ERROR" << endl;
+            return false;
+        }
+
         possibleQueryType = tokenizedQuery[2];
         if (possibleQueryType == "PROJECT")
             return syntacticParsePROJECTION();
@@ -70,8 +93,8 @@ bool syntacticParse()
             return syntacticParseCROSS();
         else if (possibleQueryType == "DISTINCT")
             return syntacticParseDISTINCT();
-        else if (possibleQueryType == "SORT")
-            return syntacticParseSORT();
+        else if (possibleQueryType == "GROUP")
+            return syntacticParseGROUP_BY(arrowPos);
         else if (possibleQueryType =="PATH"){
             // cout<<"HI"<<endl;
             return syntacticParsePATH();
@@ -115,6 +138,15 @@ void ParsedQuery::clear()
     this->joinSecondRelationName = "";
     this->joinFirstColumnName = "";
     this->joinSecondColumnName = "";
+    this->joinConditionType = NO_JOIN_COND;
+    this->joinArithmeticOperator = NO_ARITH_OP;
+    this->joinArithmeticConstant = 0;
+    this->joinHasWhereClause = false;
+    this->joinWhereColumnName = "";
+    this->joinWhereBinaryOperator = NO_BINOP_CLAUSE;
+    this->joinWhereIntLiteral = 0;
+    this->joinHasProjectClause = false;
+    this->joinProjectColumns.clear();
 
     this->loadRelationName = "";
 
@@ -136,10 +168,16 @@ void ParsedQuery::clear()
     this->selectionSecondColumnName = "";
     this->selectionIntLiteral = 0;
 
+    this->setBufferSize = 0;
+
     this->sortingStrategy = NO_SORT_CLAUSE;
-    this->sortResultRelationName = "";
-    this->sortColumnName = "";
     this->sortRelationName = "";
+    this->sortColumnNames.clear();
+    this->sortColumnStrategies.clear();
+    this->sortHasTopClause = false;
+    this->sortTopCount = 0;
+    this->sortHasBottomClause = false;
+    this->sortBottomCount = 0;
 
     this->sourceFileName = "";
 
@@ -154,6 +192,16 @@ void ParsedQuery::clear()
     this->pathResultName = "";
     this-> degreeNodeID = -1;
     this->degreeGraphName="";
+
+    this->groupByResultRelationNames.clear();
+    this->groupByRelationName = "";
+    this->groupByColumnNames.clear();
+    this->groupByHavingType = NO_HAVING_EXPR;
+    this->groupByHavingLhs = AggregateTerm();
+    this->groupByHavingRhsAgg = AggregateTerm();
+    this->groupByHavingRhsConst = 0;
+    this->groupByHavingBinaryOperator = NO_BINOP_CLAUSE;
+    this->groupByReturnAggregates.clear();
 }
 
 /**

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "tableCatalogue.h"
 
 using namespace std;
@@ -21,14 +23,16 @@ enum QueryType
     LIST,
     LOAD,
     PRINT,
-    PROJECTION,
-    RENAME,
-    SELECTION,
-    SORT,
-    SOURCE,
-    LOAD_GRAPH,
-    EXPORT_GRAPH,
-    PATH,
+	PROJECTION,
+	RENAME,
+	SELECTION,
+	SETBUFFER,
+	SORT,
+	GROUP_BY,
+	SOURCE,
+	LOAD_GRAPH,
+	EXPORT_GRAPH,
+	PATH,
     DEGREE,
     PRINT_GRAPH,
     UNDETERMINED
@@ -47,15 +51,53 @@ enum BinaryOperator
 
 enum SortingStrategy
 {
-    ASC,
-    DESC,
-    NO_SORT_CLAUSE
+	ASC,
+	DESC,
+	NO_SORT_CLAUSE
+};
+
+enum ArithmeticOperator
+{
+	PLUS,
+	MINUS,
+	NO_ARITH_OP
+};
+
+enum JoinConditionType
+{
+	JOIN_ATTR_EQ,
+	JOIN_ARITH_EQ,
+	NO_JOIN_COND
+};
+
+enum AggregateFunction
+{
+	AGG_MAX,
+	AGG_MIN,
+	AGG_COUNT,
+	AGG_SUM,
+	AGG_AVG,
+	NO_AGG
+};
+
+enum HavingExpressionType
+{
+	HAVING_AGG_CONST,
+	HAVING_AGG_AGG,
+	NO_HAVING_EXPR
+};
+
+struct AggregateTerm
+{
+	AggregateFunction function = NO_AGG;
+	string attribute = "";
+	bool isStar = false;
 };
 
 enum SelectType
 {
-    COLUMN,
-    INT_LITERAL,
+	COLUMN,
+	INT_LITERAL,
     NO_SELECT_CLAUSE
 };
 
@@ -83,9 +125,18 @@ public:
     BinaryOperator joinBinaryOperator = NO_BINOP_CLAUSE;
     string joinResultRelationName = "";
     string joinFirstRelationName = "";
-    string joinSecondRelationName = "";
-    string joinFirstColumnName = "";
-    string joinSecondColumnName = "";
+	string joinSecondRelationName = "";
+	string joinFirstColumnName = "";
+	string joinSecondColumnName = "";
+	JoinConditionType joinConditionType = NO_JOIN_COND;
+	ArithmeticOperator joinArithmeticOperator = NO_ARITH_OP;
+	int joinArithmeticConstant = 0;
+	bool joinHasWhereClause = false;
+	string joinWhereColumnName = "";
+	BinaryOperator joinWhereBinaryOperator = NO_BINOP_CLAUSE;
+	int joinWhereIntLiteral = 0;
+	bool joinHasProjectClause = false;
+	vector<string> joinProjectColumns;
 
     string loadRelationName = "";
 
@@ -104,15 +155,21 @@ public:
     string selectionResultRelationName = "";
     string selectionRelationName = "";
     string selectionFirstColumnName = "";
-    string selectionSecondColumnName = "";
-    int selectionIntLiteral = 0;
+	string selectionSecondColumnName = "";
+	int selectionIntLiteral = 0;
 
-    SortingStrategy sortingStrategy = NO_SORT_CLAUSE;
-    string sortResultRelationName = "";
-    string sortColumnName = "";
-    string sortRelationName = "";
+	uint setBufferSize = 0;
 
-    string sourceFileName = "";
+	SortingStrategy sortingStrategy = NO_SORT_CLAUSE;
+	string sortRelationName = "";
+	vector<string> sortColumnNames;
+	vector<SortingStrategy> sortColumnStrategies;
+	bool sortHasTopClause = false;
+	long long sortTopCount = 0;
+	bool sortHasBottomClause = false;
+	long long sortBottomCount = 0;
+
+	string sourceFileName = "";
 
     // graph
     string graphName = "";
@@ -125,11 +182,22 @@ public:
 
     vector<PathCondition> pathConditions;
 
-    //degree
-    int degreeNodeID = -1;
-    string degreeGraphName = "";
-    ParsedQuery();
-    void clear();
+	//degree
+	int degreeNodeID = -1;
+	string degreeGraphName = "";
+
+	// group by
+	vector<string> groupByResultRelationNames;
+	string groupByRelationName = "";
+	vector<string> groupByColumnNames;
+	HavingExpressionType groupByHavingType = NO_HAVING_EXPR;
+	AggregateTerm groupByHavingLhs;
+	AggregateTerm groupByHavingRhsAgg;
+	int groupByHavingRhsConst = 0;
+	BinaryOperator groupByHavingBinaryOperator = NO_BINOP_CLAUSE;
+	vector<AggregateTerm> groupByReturnAggregates;
+	ParsedQuery();
+	void clear();
 };
 
 bool syntacticParse();
@@ -145,7 +213,9 @@ bool syntacticParsePRINT();
 bool syntacticParsePROJECTION();
 bool syntacticParseRENAME();
 bool syntacticParseSELECTION();
+bool syntacticParseSETBUFFER();
 bool syntacticParseSORT();
+bool syntacticParseGROUP_BY(int arrowPos = 1);
 bool syntacticParseSOURCE();
 
 bool syntacticParseLOAD_GRAPH();

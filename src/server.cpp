@@ -5,14 +5,14 @@ using namespace std;
 
 int GLOBAL_BLOCK_ACCESS_COUNT=0;
 float BLOCK_SIZE = 1;
-uint BLOCK_COUNT = 2;
+uint BLOCK_COUNT = 10;
 uint PRINT_COUNT = 1e9+7;
 Logger logger;
 vector<string> tokenizedQuery;
 ParsedQuery parsedQuery;
+BufferManager bufferManager;
 TableCatalogue tableCatalogue;
 GraphCatalogue graphCatalogue;
-BufferManager bufferManager;
 
 void doCommand()
 {
@@ -44,6 +44,18 @@ int main(void)
         auto words_end = std::sregex_iterator();
         for (std::sregex_iterator i = words_begin; i != words_end; ++i)
             tokenizedQuery.emplace_back((*i).str());
+
+        // strip trailing semicolons (queries in docs often end with ';')
+        vector<string> cleanedTokens;
+        cleanedTokens.reserve(tokenizedQuery.size());
+        for (auto &tok : tokenizedQuery)
+        {
+            while (!tok.empty() && tok.back() == ';')
+                tok.pop_back();
+            if (!tok.empty())
+                cleanedTokens.emplace_back(tok);
+        }
+        tokenizedQuery.swap(cleanedTokens);
 
         if (tokenizedQuery.size() == 1 && tokenizedQuery.front() == "QUIT")
         {

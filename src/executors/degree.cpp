@@ -1,30 +1,38 @@
 #include "global.h"
 
-int getStartBlockTemp(Table* table, int key) {
-    int l = 0, r = table->blockCount - 1;
-    int ans = table->blockCount;
+int getStartBlockTemp(Table *table, int key)
+{
+  int l = 0, r = table->blockCount - 1;
+  int ans = table->blockCount;
 
-    while (l <= r) {
-        int mid = l + (r - l) / 2;
-        Page p(table->tableName, mid);
-        vector<int> row = p.getRow(0);
+  while (l <= r)
+  {
+    int mid = l + (r - l) / 2;
+    Page p(table->tableName, mid);
+    vector<int> row = p.getRow(0);
 
-        if (row.empty()) {
-            r = mid - 1; 
-            continue;
-        }
-
-        if (row[0] >= key) {
-            ans = mid;
-            r = mid - 1;
-        } else {
-            l = mid + 1;
-        }
+    if (row.empty())
+    {
+      r = mid - 1;
+      continue;
     }
 
-    if (ans == 0) return 0;
-    if (ans == table->blockCount) return table->blockCount - 1;
-    return ans - 1; 
+    if (row[0] >= key)
+    {
+      ans = mid;
+      r = mid - 1;
+    }
+    else
+    {
+      l = mid + 1;
+    }
+  }
+
+  if (ans == 0)
+    return 0;
+  if (ans == table->blockCount)
+    return table->blockCount - 1;
+  return ans - 1;
 }
 
 bool syntacticParseDEGREE()
@@ -61,22 +69,21 @@ void executeDEGREE()
 {
   logger.log("executeDEGREE");
   GLOBAL_BLOCK_ACCESS_COUNT = 0;
-  
+
   string graphName = parsedQuery.graphName;
   int targetNode = parsedQuery.degreeNodeID;
   Graph *graph = graphCatalogue.getGraph(graphName);
-  
+
   bool nodeExists = false;
-  int nodeBlock = getStartBlockTemp(graph->nodeTable, targetNode);
-  
-  Cursor c(graph->nodeTable->tableName, nodeBlock);
+  Cursor nodeCursor = graph->nodeTable->getCursor();
   vector<int> row;
-  while (!(row = c.getNext()).empty()) {
-      if (row[0] == targetNode) {
-          nodeExists = true;
-          break;
-      }
-      if (row[0] > targetNode) break; 
+  while (!(row = nodeCursor.getNext()).empty())
+  {
+    if (row[0] == targetNode)
+    {
+      nodeExists = true;
+      break;
+    }
   }
 
   if (!nodeExists)

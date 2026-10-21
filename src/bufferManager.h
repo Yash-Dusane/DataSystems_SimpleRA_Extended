@@ -26,6 +26,7 @@ class BufferManager{
     bool inPool(string pageName);
     Page getFromPool(string pageName);
     Page insertIntoPool(string tableName, int pageIndex);
+    void evictFromPool(const string &pageName);
 
     public:
     
@@ -35,4 +36,6 @@ class BufferManager{
     void deleteFile(string tableName, int pageIndex);
     void deleteFile(string fileName);
     void writePage(string tableName, int pageIndex, vector<vector<int>> rows, int rowCount);
+    void setMaxPages(uint maxPages);
+    void invalidateTable(const string &tableName);
 };

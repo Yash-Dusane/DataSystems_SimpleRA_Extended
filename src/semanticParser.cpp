@@ -15,7 +15,9 @@ bool semanticParse(){
         case PROJECTION: return semanticParsePROJECTION();
         case RENAME: return semanticParseRENAME();
         case SELECTION: return semanticParseSELECTION();
+        case SETBUFFER: return semanticParseSETBUFFER();
         case SORT: return semanticParseSORT();
+        case GROUP_BY: return semanticParseGROUP_BY();
         case SOURCE: return semanticParseSOURCE();
         case LOAD_GRAPH: return semanticParseLOAD_GRAPH();
         case EXPORT_GRAPH: return semanticParseEXPORT_GRAPH();

@@ -4,6 +4,29 @@ void executePRINT_GRAPH();
 bool semanticParsePRINT_GRAPH();
 bool syntacticParsePRINT_GRAPH();
 
+static void printCsvDataLines(const string &filePath, uint limit)
+{
+    ifstream fin(filePath);
+    if (!fin.is_open())
+        return;
+
+    string line;
+    // Skip header
+    if (!getline(fin, line))
+        return;
+
+    uint printed = 0;
+    while (printed < limit && getline(fin, line))
+    {
+        if (line.empty())
+            continue;
+        if (!line.empty() && line.back() == '\r')
+            line.pop_back();
+        cout << line << endl;
+        printed++;
+    }
+}
+
 bool syntacticParsePRINT_GRAPH()
 {
     if (tokenizedQuery.size() != 3)
@@ -43,36 +66,12 @@ void executePRINT_GRAPH()
     cout << (graph->isDirected ? "D" : "U") << endl;
     cout << endl;
 
-    Table *nodeTable = graph->nodeTable;
-    Cursor nodeCursor = nodeTable->getCursor();
-    vector<int> row;
-    uint count = 0;
+    string nodeFile = "../data/" + graph->nodeTable->tableName + ".csv";
+    string edgeFile = "../data/" + graph->edgeTable->tableName + ".csv";
 
-    while (count < PRINT_COUNT and !(row = nodeCursor.getNext()).empty())
-    {
-        nodeTable->writeRow(row, cout);
-        count++;
-    }
-
+    printCsvDataLines(nodeFile, PRINT_COUNT);
     cout << endl;
-
-    Table *edgeTable = graph->edgeTable;
-    Cursor edgeCursor = edgeTable->getCursor();
-    count = 0;
-
-    while (count < PRINT_COUNT and !(row = edgeCursor.getNext()).empty())
-    {
-        if (!graph->isDirected)
-        {
-            if (row[0] > row[1])
-            {
-                continue;
-            }
-        }
-
-        edgeTable->writeRow(row, cout);
-        count++;
-    }
+    printCsvDataLines(edgeFile, PRINT_COUNT);
 
     // cout << "Printed Graph... (Block Accesses: " << GLOBAL_BLOCK_ACCESS_COUNT << ")" << endl;
 }

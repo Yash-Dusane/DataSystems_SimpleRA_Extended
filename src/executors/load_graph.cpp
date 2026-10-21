@@ -42,12 +42,13 @@ bool semanticParseLOAD_GRAPH()
   // cout<<"Edge FILE IS"<<edgeFile<<endl;
   if (!isFileExists(nodeFile))
   {
-    cout << "SEMANTIC ERROR: Data File doesn't exist " << endl;
+    cout << "SEMANTIC ERROR: Data file doesn't exist" << endl;
     return false;
   }
   if (!isFileExists(edgeFile))
   {
-    cout << "SEMANTIC ERROR: Data File doesn't exist" << endl;
+    cout << "SEMANTIC ERROR: Data file doesn't exist" << endl;
+    return false;
   }
   return true;
 }
@@ -133,7 +134,8 @@ void executeLOAD_GRAPH()
   graphCatalogue.insertGraph(graph);
   logger.log("Successfully added graph to the catalog");
   int f = 1;
-  if(!parsedQuery.isDirected) f = 2;
+  if (!parsedQuery.isDirected)
+    f = 2;
   // cout << "Loaded Graph. #Nodes = " << graph->nodeTable->rowCount << ", #Edges =  " << graph->edgeTable->rowCount/f << endl;
-  cout << "Loaded Graph. Node Count: " << graph->nodeTable->rowCount << ", Edge Count: " << graph->edgeTable->rowCount/f << endl;
+  cout << "Loaded Graph.Node Count:" << graph->nodeTable->rowCount << ",Edge Count:" << graph->edgeTable->rowCount / f << endl;
 }

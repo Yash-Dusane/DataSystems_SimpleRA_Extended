@@ -22,7 +22,10 @@ vector<int> Cursor::getNext()
     vector<int> result = this->page.getRow(this->pagePointer);
     this->pagePointer++;
     if(result.empty()){
-        tableCatalogue.getTable(this->tableName)->getNextPage(this);
+        Table *table = tableCatalogue.getTable(this->tableName);
+        if (table == nullptr)
+            return result;
+        table->getNextPage(this);
         if(!this->pagePointer){
             result = this->page.getRow(this->pagePointer);
             this->pagePointer++;

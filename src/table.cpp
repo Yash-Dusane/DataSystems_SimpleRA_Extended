@@ -247,11 +247,11 @@ void Table::print()
 void Table::getNextPage(Cursor *cursor)
 {
     logger.log("Table::getNext");
+    if (this->blockCount == 0)
+        return;
 
-        if (cursor->pageIndex < this->blockCount - 1)
-        {
-            cursor->nextPage(cursor->pageIndex+1);
-        }
+    if (cursor->pageIndex >= 0 && (uint)(cursor->pageIndex + 1) < this->blockCount)
+        cursor->nextPage(cursor->pageIndex + 1);
 }
 
 
@@ -280,6 +280,7 @@ void Table::makePermanent()
         this->writeRow(row, fout);
     }
     fout.close();
+    this->sourceFileName = newSourceFile;
 }
 
 /**
@@ -334,4 +335,5 @@ int Table::getColumnIndex(string columnName)
         if (this->columns[columnCounter] == columnName)
             return columnCounter;
     }
+    return -1;
 }

@@ -31,13 +31,27 @@ Page::Page(string tableName, int pageIndex)
     this->tableName = tableName;
     this->pageIndex = pageIndex;
     this->pageName = "../data/temp/" + this->tableName + "_Page" + to_string(pageIndex);
-    Table table = *tableCatalogue.getTable(tableName);
+    Table *tablePtr = tableCatalogue.getTable(tableName);
+    if (tablePtr == nullptr || pageIndex < 0 || (uint)pageIndex >= tablePtr->blockCount)
+    {
+        this->rowCount = 0;
+        this->columnCount = 0;
+        this->rows.clear();
+        return;
+    }
+
+    Table table = *tablePtr;
     this->columnCount = table.columnCount;
     uint maxRowCount = table.maxRowsPerBlock;
     vector<int> row(columnCount, 0);
     this->rows.assign(maxRowCount, row);
 
     ifstream fin(pageName, ios::in);
+    if (!fin.good())
+    {
+        this->rowCount = 0;
+        return;
+    }
     this->rowCount = table.rowsPerBlockCount[pageIndex];
     int number;
     for (uint rowCounter = 0; rowCounter < this->rowCount; rowCounter++)
