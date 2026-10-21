@@ -20,6 +20,8 @@ bool syntacticParse()
         return syntacticParseCLEAR();
     else if (possibleQueryType == "INDEX")
         return syntacticParseINDEX();
+    else if (possibleQueryType == "TRANSACTION")
+        return syntacticParseTRANSACTION();
     else if (possibleQueryType == "LIST")
         return syntacticParseLIST();
     else if (possibleQueryType == "LOAD")
@@ -116,6 +118,8 @@ void ParsedQuery::clear()
 {
     logger.log("ParseQuery::clear");
     this->queryType = UNDETERMINED;
+
+    this->transactionFileName = "";
 
     this->clearRelationName = "";
 

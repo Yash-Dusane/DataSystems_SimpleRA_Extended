@@ -8,6 +8,7 @@ bool semanticParse(){
         case DISTINCT: return semanticParseDISTINCT();
         case EXPORT: return semanticParseEXPORT();
         case INDEX: return semanticParseINDEX();
+        case TRANSACTION: return semanticParseTRANSACTION();
         case JOIN: return semanticParseJOIN();
         case LIST: return semanticParseLIST();
         case LOAD: return semanticParseLOAD();

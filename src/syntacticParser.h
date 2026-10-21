@@ -19,6 +19,7 @@ enum QueryType
     DISTINCT,
     EXPORT,
     INDEX,
+    TRANSACTION,
     JOIN,
     LIST,
     LOAD,
@@ -106,6 +107,8 @@ class ParsedQuery
 
 public:
     QueryType queryType = UNDETERMINED;
+
+    string transactionFileName = "";
 
     string clearRelationName = "";
 
@@ -206,6 +209,7 @@ bool syntacticParseCROSS();
 bool syntacticParseDISTINCT();
 bool syntacticParseEXPORT();
 bool syntacticParseINDEX();
+bool syntacticParseTRANSACTION();
 bool syntacticParseJOIN();
 bool syntacticParseLIST();
 bool syntacticParseLOAD();

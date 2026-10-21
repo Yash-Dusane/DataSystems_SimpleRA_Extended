@@ -8,6 +8,7 @@ void executeCommand(){
         case DISTINCT: executeDISTINCT(); break;
         case EXPORT: executeEXPORT(); break;
         case INDEX: executeINDEX(); break;
+        case TRANSACTION: executeTRANSACTION(); break;
         case JOIN: executeJOIN(); break;
         case LIST: executeLIST(); break;
         case LOAD: executeLOAD(); break;
