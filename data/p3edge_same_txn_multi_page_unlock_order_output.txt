@@ -1,0 +1,16 @@
+BEGIN T1
+T1 requests shared lock(student 0)
+Lock granted
+READ T1 student 0
+T1 requests shared lock(class 0)
+Lock granted
+READ T1 class 0
+T1 requests exclusive lock(student 0)
+Lock granted
+WRITE T1 student 0
+T1 requests exclusive lock(class 0)
+Lock granted
+WRITE T1 class 0
+COMMIT T1
+unlock(student 0) by T1
+unlock(class 0) by T1

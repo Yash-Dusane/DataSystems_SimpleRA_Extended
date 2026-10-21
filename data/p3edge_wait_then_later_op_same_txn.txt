@@ -1,0 +1,7 @@
+BEGIN T1
+BEGIN T2
+WRITE T2 student 0
+READ T1 student 0
+WRITE T1 class 0
+COMMIT T2
+COMMIT T1

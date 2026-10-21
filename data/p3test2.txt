@@ -1,0 +1,8 @@
+BEGIN T1
+BEGIN T2
+READ T1 student 5
+READ T2 class 3
+WRITE T1 class 3
+WRITE T2 student 5
+COMMIT T1
+COMMIT T2

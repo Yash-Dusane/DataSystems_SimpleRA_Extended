@@ -1,0 +1,47 @@
+BEGIN T1
+BEGIN T2
+BEGIN T3
+T1 requests shared lock(student 3)
+Lock granted
+READ T1 student 3
+T2 requests shared lock(student 3)
+Lock granted
+READ T2 student 3
+T1 requests exclusive lock(student 3)
+T1 waits (T2 holds conflicting lock, T1 is older so allowed to wait)
+T3 requests shared lock(student 3)
+Lock granted
+READ T3 student 3
+T2 requests exclusive lock(student 3)
+T2 dies (younger than T1, cannot wait)
+ABORT T2
+ROLLBACK T2
+unlock(student 3) by T2
+T1 still waits because T3 holds shared lock
+T3 requests exclusive lock(student 3)
+T3 dies (younger than T1, cannot wait)
+ABORT T3
+ROLLBACK T3
+unlock(student 3) by T3
+T1 exclusive lock(student 3) granted
+WRITE T1 student 3
+COMMIT T1
+unlock(student 3) by T1
+Restart T2
+T2 requests shared lock(student 3)
+Lock granted
+READ T2 student 3
+T2 requests exclusive lock(student 3)
+Lock granted
+WRITE T2 student 3
+COMMIT T2
+unlock(student 3) by T2
+Restart T3
+T3 requests shared lock(student 3)
+Lock granted
+READ T3 student 3
+T3 requests exclusive lock(student 3)
+Lock granted
+WRITE T3 student 3
+COMMIT T3
+unlock(student 3) by T3

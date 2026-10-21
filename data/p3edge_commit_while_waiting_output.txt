@@ -1,0 +1,14 @@
+BEGIN T1
+BEGIN T2
+T2 requests exclusive lock(student 0)
+Lock granted
+WRITE T2 student 0
+T1 requests shared lock(student 0)
+T1 waits (T2 holds conflicting lock, T1 is older so allowed to wait)
+T1 commit delayed because transaction is waiting
+COMMIT T2
+unlock(student 0) by T2
+T1 shared lock(student 0) granted
+READ T1 student 0
+COMMIT T1
+unlock(student 0) by T1
